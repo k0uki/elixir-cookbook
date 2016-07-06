@@ -25,6 +25,17 @@ include_recipe "elixir::_#{node[:elixir][:install_method]}"
 bin_path    = File.join(node[:elixir][:install_path], "bin")
 executables = ["elixir", "elixirc", "iex", "mix"]
 
+execute "#{bin_path} permission" do
+  command "chmod 755 #{bin_path}"
+  action :run
+end
+
+ebin_path    = File.join(node[:elixir][:install_path], "lib")
+execute "#{ebin_path} permission" do
+  command "chmod 755 #{ebin_path}/*/ebin"
+  action :run
+end
+
 executables.each do |executable|
   link "/usr/bin/#{executable}" do
     to File.join(bin_path, executable)

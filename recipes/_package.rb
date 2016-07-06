@@ -10,13 +10,14 @@ when 'debian'
   node.normal[:apt][:compile_time_update] = true
   node.normal[:erlang][:esl][:version] = "1:18.0"
 when 'rhel'
-  node.normal[:erlang][:esl][:version] = "18.0-1.el6"
+  node.normal[:erlang][:source][:version] = "18.0"
+  node.normal[:erlang][:source][:checksum] = "a0b69da34b4f218eb7d63d9e96fc120aa7257bb6c37a0f40fb388e188b4111aa"
 end
 
 elixir_path = File.join(node[:elixir][:_versions_path], node[:elixir][:version])
 
 include_recipe "apt::default"
-include_recipe "erlang::esl"
+include_recipe "erlang::source"
 include_recipe "libarchive"
 
 asset = github_asset "Precompiled.zip" do
